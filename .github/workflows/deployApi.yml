@@ -17,10 +17,10 @@ jobs:
                 dotnet-version: 8.0.x
             
             - name: Install Dependencies
-              run: dotnet restore ./LearningApi/LearningAPI.csproj
+              run: dotnet restore ./LearningAPI/LearningAPI.csproj
             
             - name: Build
-              run: dotnet build ./LearningApi/LearningAPI.csproj --configuration Release --no-restore
+              run: dotnet build ./LearningAPI/LearningAPI.csproj --configuration Release --no-restore
 
             - name: Publish
-              run: dotnet publish ./LearningApi/LearningAPI.csproj --configuration Release --output ./publish
+              run: dotnet publish ./LearningAPI/LearningAPI.csproj --configuration Release --output ./publish
