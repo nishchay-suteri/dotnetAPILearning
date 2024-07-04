@@ -1,0 +1,8 @@
+{
+    "dotnet.defaultSolution": "LearningAPI.sln",
+    "cSpell.words": [
+        "downloadedfiles",
+        "learningapi"
+    ],
+    "appService.defaultWebAppToDeploy": "None"
+}

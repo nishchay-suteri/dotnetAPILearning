@@ -1,0 +1,25 @@
+###
+POST https://localhost:7003/api/datadownloader/downloaddata
+Content-Type: application/json
+
+{
+    "DownloadUrl": "https://dummyjson.com/test"
+}
+
+
+###
+POST https://localhost:7003/api/datadownloader/downloaddata
+Content-Type: application/json
+
+{
+    "DownloadUrl": "https://dummyjson.com/quotes"
+}
+
+
+###
+POST https://localhost:7003/api/datadownloader/downloaddata
+Content-Type: application/json
+
+{
+    "DownloadUrl": ""
+}
