@@ -1,0 +1,26 @@
+# github action to deploy dotnet api to azure
+
+name: Deply dotnet web api
+
+on:
+    workflow_dispatch: # manually running action instead of automatic push/merge/etc.
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Setup dotnet core
+              uses: actions/setup-dotnet@v3
+              with:
+                dotnet-version: 8.0.x
+            
+            - name: Install Dependencies
+              run: dotnet restore ./LearningApi/LearningAPI.csproj
+            
+            - name: Build
+              run: dotnet build ./LearningApi/LearningAPI.csproj --configuration Release --no-restore
+
+            - name: Publish
+              run: dotnet publish ./LearningApi/LearningAPI.csproj --configuration Release --output ./publish
