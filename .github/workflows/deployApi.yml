@@ -5,22 +5,39 @@ name: Deply dotnet web api
 on:
     workflow_dispatch: # manually running action instead of automatic push/merge/etc.
 
+env:
+  AZURE_WEBAPP_NAME: 'app-learningapi-cind-dev-001' # name of the azure web app
+
+
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
+            # Checkout Repo
             - uses: actions/checkout@v3
-
+            
+            # Setup dotnet
             - name: Setup dotnet core
               uses: actions/setup-dotnet@v3
               with:
                 dotnet-version: 8.0.x
             
+            # dotnet restore
             - name: Install Dependencies
               run: dotnet restore ./LearningAPI/LearningAPI.csproj
             
+            # dotnet build
             - name: Build
               run: dotnet build ./LearningAPI/LearningAPI.csproj --configuration Release --no-restore
 
+            # dotnet publish
             - name: Publish
               run: dotnet publish ./LearningAPI/LearningAPI.csproj --configuration Release --output ./publish
+
+            # deploy to azure
+            - name: Deploy to Azure Web App
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: ${{ env.AZURE_WEBAPP_NAME }}
+                publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
+                package: ./publish
