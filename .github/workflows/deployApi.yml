@@ -7,6 +7,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: 'app-learningapi-cind-dev-001' # name of the azure web app
+  AZURE_WEBAPP_PACKAGE_PATH: './publish' # path to the publish folder
 
 
 jobs:
@@ -32,7 +33,7 @@ jobs:
 
             # dotnet publish
             - name: Publish
-              run: dotnet publish ./LearningAPI/LearningAPI.csproj --configuration Release --output ./publish
+              run: dotnet publish ./LearningAPI/LearningAPI.csproj --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
             # deploy to azure
             - name: Deploy to Azure Web App
@@ -40,4 +41,4 @@ jobs:
               with:
                 app-name: ${{ env.AZURE_WEBAPP_NAME }}
                 publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
-                package: ./publish
+                package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
