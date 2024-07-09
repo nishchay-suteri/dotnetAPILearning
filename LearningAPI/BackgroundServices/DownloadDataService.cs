@@ -28,8 +28,15 @@ public class DownloadDataService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Starting background service iteration");
-            await ProcessDownloadDataAsync(stoppingToken);
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Repeat every 1 minute
+            try
+            {
+                await ProcessDownloadDataAsync(stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Repeat every 1 minute
+            }
+            catch (TaskCanceledException)
+            {
+                _logger.LogWarning("Background service Iteration was cancelled");
+            }
         }
     }
 
@@ -82,6 +89,10 @@ public class DownloadDataService : BackgroundService
                     await _databaseHelper.UpdateDataAsync(data, stoppingToken);
                 }
             }
+        }
+        catch (TaskCanceledException)
+        {
+            _logger.LogWarning("Data processing was canceled.");
         }
         catch (Exception ex)
         {

@@ -20,9 +20,16 @@ public class RequestConsumer : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Starting background service iteration");
-            // await ConsumeRequestAsync(stoppingToken);
-            await ConsumeMultipleRequestsAsync(stoppingToken);
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Repeat every 1 minute
+            try
+            {
+                // await ConsumeRequestAsync(stoppingToken);
+                await ConsumeMultipleRequestsAsync(stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Repeat every 1 minute
+            }
+            catch (TaskCanceledException)
+            {
+                _logger.LogWarning("Background service Iteration was cancelled");
+            }
         }
     }
 
