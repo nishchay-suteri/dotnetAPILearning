@@ -31,6 +31,9 @@ jobs:
             - name: Build
               run: dotnet build ./LearningAPI/LearningAPI.csproj --configuration Release --no-restore
 
+            - name: Test
+              run: dotnet test ./LearningAPITest/LearningAPITest.csproj --no-build --verbosity normal
+
             # dotnet publish
             - name: Publish
               run: dotnet publish ./LearningAPI/LearningAPI.csproj --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
