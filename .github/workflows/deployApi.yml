@@ -28,11 +28,14 @@ jobs:
               run: dotnet restore ./LearningAPI/LearningAPI.csproj
             
             # dotnet build
-            - name: Build
+            - name: Build API Project
               run: dotnet build ./LearningAPI/LearningAPI.csproj --configuration Release --no-restore
 
+            - name: Restore & Build Test Project
+              run: dotnet build ./LearningAPITest/LearningAPITest.csproj --configuration Release
+
             - name: Test
-              run: dotnet test ./LearningAPITest/LearningAPITest.csproj --no-build --verbosity normal
+              run: dotnet test ./LearningAPITest/LearningAPITest.csproj --configuration Release --no-build --verbosity normal
 
             # dotnet publish
             - name: Publish
