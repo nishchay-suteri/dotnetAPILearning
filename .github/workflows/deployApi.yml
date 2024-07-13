@@ -43,8 +43,8 @@ jobs:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 comment-title: 'Unit Test Results'
                 results-path: ./TestResults/*.trx
-                coverage-path: ./TestResults/**/coverage.cobertura.xml
-                coverage-threshold: 0 # TODO: set a threshold
+                # coverage-path: ./TestResults/**/coverage.cobertura.xml
+                # coverage-threshold: 0 # TODO: set a threshold
 
             # dotnet publish
             - name: Publish
