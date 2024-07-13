@@ -9,6 +9,9 @@ env:
   AZURE_WEBAPP_NAME: 'app-learningapi-cind-dev-001' # name of the azure web app
   AZURE_WEBAPP_PACKAGE_PATH: './publish' # path to the publish folder
 
+permissions:
+  checks: write
+  pull-requests: write
 
 jobs:
     build:
