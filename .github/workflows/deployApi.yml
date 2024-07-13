@@ -35,7 +35,13 @@ jobs:
               run: dotnet build ./LearningAPITest/LearningAPITest.csproj --configuration Release
 
             - name: Test
-              run: dotnet test ./LearningAPITest/LearningAPITest.csproj --configuration Release --no-build --verbosity normal
+              run: dotnet test ./LearningAPITest/LearningAPITest.csproj --configuration Release --no-build --verbosity normal --logger trx --results-directory TestResults
+
+            - name: Publish Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              if: always()
+              with:
+                files: "./TestResults/*.trx"
 
             # dotnet publish
             - name: Publish
