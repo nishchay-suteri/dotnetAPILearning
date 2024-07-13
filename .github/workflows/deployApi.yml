@@ -37,12 +37,12 @@ jobs:
               run: dotnet test ./LearningAPITest/LearningAPITest.csproj --configuration Release --no-build --verbosity normal --logger trx --results-directory TestResults --collect "XPlat Code Coverage"
           
             - name: Test Reports
-              uses: bibipkins/dotnet-test-reporter@v1.4.0
+              uses: bibipkins/dotnet-test-reporter@v1.4.1
               if: always()
               with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 comment-title: 'Unit Test Results'
-                results-path: ./TestResults/*.trx"
+                results-path: ./TestResults/*.trx
                 coverage-path: ./TestResults/**/coverage.cobertura.xml
                 coverage-threshold: 0 # TODO: set a threshold
 
