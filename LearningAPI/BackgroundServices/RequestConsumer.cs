@@ -33,29 +33,6 @@ public class RequestConsumer : BackgroundService
         }
     }
 
-    private async Task ConsumeRequestAsync(CancellationToken stoppingToken)
-    {
-        // Imagine complex data processing here.
-        _logger.LogInformation("Processing data...");
-        string messageReceived = await _serviceBusHelper.ReceiveMessageAsync(stoppingToken);
-        if (string.IsNullOrEmpty(messageReceived))
-        {
-            _logger.LogInformation("Received message is empty");
-        }
-        else
-        {
-            _logger.LogInformation($"Received Message: {messageReceived}");
-            var receivedMessageObject = JsonSerializer.Deserialize<DataDownloadRequestDto>(messageReceived);
-            var downloadDataInformation = new DownloadDataInformation()
-            {
-                DownloadUrl = receivedMessageObject?.DownloadUrl,
-                TaskStatus = TaskStatusValue.New,
-                CreatedOn = DateTime.UtcNow,
-                UpdatedOn = DateTime.UtcNow
-            };
-            await _databaseHelper.CreateDataAsync(downloadDataInformation, stoppingToken);
-        }
-    }
     private async Task ConsumeMultipleRequestsAsync(CancellationToken stoppingToken)
     {
         // Imagine complex data processing here.

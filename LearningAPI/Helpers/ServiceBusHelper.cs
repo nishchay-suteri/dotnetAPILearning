@@ -36,31 +36,6 @@ public class ServiceBusHelper : IServiceBusHelper
         }
     }
 
-    public async Task<string> ReceiveMessageAsync(CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            // the received message is a different type as it contains some service set properties
-            ServiceBusReceivedMessage? receivedMessage = await _serviceBusReceiver.ReceiveMessageAsync(cancellationToken: cancellationToken);
-            if (receivedMessage is null)
-            {
-                _logger.LogInformation($"No message found in queue");
-                return string.Empty;
-            }
-            // get the message body as a string
-            string body = receivedMessage.Body.ToString();
-            _logger.LogInformation($"Received message: {body}");
-            // complete the message, thereby deleting it from the service
-            await _serviceBusReceiver.CompleteMessageAsync(receivedMessage, cancellationToken);
-            return body;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception occurred when receiving message from queue");
-            throw;
-        }
-    }
-
     public async Task<List<string>> ReceiveBulkMessagesAsync(CancellationToken cancellationToken = default)
     {
         // receive bulk messages from service bus
