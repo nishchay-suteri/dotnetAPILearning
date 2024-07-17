@@ -4,6 +4,9 @@ name: Deply dotnet web api
 
 on:
   workflow_dispatch: # manually running action instead of automatic push/merge/etc.
+  push:
+    branches:
+      - main
 
 env:
   AZURE_WEBAPP_NAME: "app-learningapi-cind-dev-001" # name of the azure web app
