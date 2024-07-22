@@ -34,7 +34,7 @@ public class BlobServiceHelperTests
         var blobClientMock = Substitute.For<BlobClient>();
         blobContainerClientMock.GetBlobClient(testBlobName).Returns(blobClientMock);
 
-        var mockBlobContentInfo = Substitute.For<BlobContentInfo >();
+        var mockBlobContentInfo = Substitute.For<BlobContentInfo>();
         var mockResponse = Substitute.For<Response<BlobContentInfo>>();
         mockResponse.Value.Returns(mockBlobContentInfo);
 
@@ -62,7 +62,7 @@ public class BlobServiceHelperTests
         var blobClientMock = Substitute.For<BlobClient>();
         blobContainerClientMock.GetBlobClient(testBlobName).Returns(blobClientMock);
 
-        var mockBlobContentInfo = Substitute.For<BlobContentInfo >();
+        var mockBlobContentInfo = Substitute.For<BlobContentInfo>();
         var mockResponse = Substitute.For<Response<BlobContentInfo>>();
         mockResponse.Value.Returns(mockBlobContentInfo);
 

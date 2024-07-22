@@ -9,7 +9,7 @@ using NSubstitute;
 namespace LearningAPITest.BackgroundServices;
 
 // Making testable class to test protected method
-public class RequestConsumerTestable: RequestConsumer
+public class RequestConsumerTestable : RequestConsumer
 {
     public RequestConsumerTestable(ILogger<RequestConsumer> logger, IServiceBusHelper serviceBusHelper, IDatabaseHelper databaseHelper) : base(logger, serviceBusHelper, databaseHelper)
     {

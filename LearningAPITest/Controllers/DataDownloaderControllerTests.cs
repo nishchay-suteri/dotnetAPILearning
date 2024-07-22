@@ -50,7 +50,7 @@ public class DataDownloaderControllerTests
         Assert.IsType<OkObjectResult>(result);
         Assert.Equal("Request submitted for url: https://example.com", (result as OkObjectResult)?.Value);
         _loggerMock.Received(1).LogInformation("Received URL: https://example.com");
-        await _serviceBusHelperMock.Received(1).SendMessageAsync(Arg.Is<string>(request => 
+        await _serviceBusHelperMock.Received(1).SendMessageAsync(Arg.Is<string>(request =>
             request.Equals("{\"DownloadUrl\":\"https://example.com\"}")
         ), Arg.Any<CancellationToken>());
     }

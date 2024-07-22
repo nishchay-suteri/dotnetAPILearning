@@ -27,7 +27,7 @@ public class DownloadDataServiceTests
     private readonly IDataDownloaderHelper _dataDownloaderHelperMock;
     private readonly IBlobServiceHelper _blobServiceHelperMock;
     private readonly DownloadDataServiceTestable _downloadDataService;
-    
+
     public DownloadDataServiceTests()
     {
         _loggerMock = Substitute.For<ILogger<DownloadDataService>>();
@@ -82,7 +82,8 @@ public class DownloadDataServiceTests
         var cancellationTokenSource = new CancellationTokenSource();
         var testId = 100;
         var testUrl = "testUrl";
-        var testDataInfo = new DownloadDataInformation(){
+        var testDataInfo = new DownloadDataInformation()
+        {
             DownloadUrl = testUrl,
             Id = testId,
             CreatedOn = DateTime.Now,
@@ -90,9 +91,9 @@ public class DownloadDataServiceTests
         };
         string? testFileContent = "test content";
 
-        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(testFileContent) }; 
+        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(testFileContent) };
 
-        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>(){testDataInfo});
+        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>() { testDataInfo });
         _dataDownloaderHelperMock.DownloadDataAsync(testUrl, cancellationTokenSource.Token).Returns(downloadDataResponse);
         _blobServiceHelperMock.UploadBlobAsync(Arg.Any<string>(), $"{testId}.json", testFileContent, cancellationTokenSource.Token).Returns(true);
 
@@ -110,7 +111,7 @@ public class DownloadDataServiceTests
         await _dataDownloaderHelperMock.Received(1).DownloadDataAsync(testUrl, cancellationTokenSource.Token);
         await _blobServiceHelperMock.Received(1).UploadBlobAsync(Arg.Any<string>(), $"{testId}.json", testFileContent, cancellationTokenSource.Token);
         await _databaseHelperMock.Received(1).UpdateDataAsync(Arg.Is<DownloadDataInformation>(
-            data => data.Id == testId && data.TaskStatus == TaskStatusValue.Completed), 
+            data => data.Id == testId && data.TaskStatus == TaskStatusValue.Completed),
             cancellationTokenSource.Token);
         _loggerMock.DidNotReceive().LogInformation("No new data to process");
     }
@@ -122,16 +123,17 @@ public class DownloadDataServiceTests
         var cancellationTokenSource = new CancellationTokenSource();
         var testId = 100;
         var testUrl = "testUrl";
-        var testDataInfo = new DownloadDataInformation(){
+        var testDataInfo = new DownloadDataInformation()
+        {
             DownloadUrl = testUrl,
             Id = testId,
             CreatedOn = DateTime.Now,
             TaskStatus = TaskStatusValue.New
         };
 
-        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError); 
+        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
-        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>(){testDataInfo});
+        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>() { testDataInfo });
         _dataDownloaderHelperMock.DownloadDataAsync(testUrl, cancellationTokenSource.Token).Returns(downloadDataResponse);
 
         // Act
@@ -147,7 +149,7 @@ public class DownloadDataServiceTests
         await _databaseHelperMock.Received(1).GetNewDataAsync(cancellationTokenSource.Token);
         await _dataDownloaderHelperMock.Received(1).DownloadDataAsync(testUrl, cancellationTokenSource.Token);
         await _databaseHelperMock.Received(1).UpdateDataAsync(Arg.Is<DownloadDataInformation>(
-            data => data.Id == testId && data.TaskStatus == TaskStatusValue.FileDownloadError), 
+            data => data.Id == testId && data.TaskStatus == TaskStatusValue.FileDownloadError),
             cancellationTokenSource.Token);
 
         await _blobServiceHelperMock.DidNotReceive().UploadBlobAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
@@ -161,7 +163,8 @@ public class DownloadDataServiceTests
         var cancellationTokenSource = new CancellationTokenSource();
         var testId = 100;
         var testUrl = "testUrl";
-        var testDataInfo = new DownloadDataInformation(){
+        var testDataInfo = new DownloadDataInformation()
+        {
             DownloadUrl = testUrl,
             Id = testId,
             CreatedOn = DateTime.Now,
@@ -169,9 +172,9 @@ public class DownloadDataServiceTests
         };
         string? testFileContent = "test content";
 
-        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(testFileContent) }; 
+        var downloadDataResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(testFileContent) };
 
-        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>(){testDataInfo});
+        _databaseHelperMock.GetNewDataAsync(cancellationTokenSource.Token).Returns(new List<DownloadDataInformation>() { testDataInfo });
         _dataDownloaderHelperMock.DownloadDataAsync(testUrl, cancellationTokenSource.Token).Returns(downloadDataResponse);
         _blobServiceHelperMock.UploadBlobAsync(Arg.Any<string>(), $"{testId}.json", testFileContent, cancellationTokenSource.Token).Returns(false);
 
@@ -189,7 +192,7 @@ public class DownloadDataServiceTests
         await _dataDownloaderHelperMock.Received(1).DownloadDataAsync(testUrl, cancellationTokenSource.Token);
         await _blobServiceHelperMock.Received(1).UploadBlobAsync(Arg.Any<string>(), $"{testId}.json", testFileContent, cancellationTokenSource.Token);
         await _databaseHelperMock.Received(1).UpdateDataAsync(Arg.Is<DownloadDataInformation>(
-            data => data.Id == testId && data.TaskStatus == TaskStatusValue.FileUploadError), 
+            data => data.Id == testId && data.TaskStatus == TaskStatusValue.FileUploadError),
             cancellationTokenSource.Token);
         _loggerMock.DidNotReceive().LogInformation("No new data to process");
     }
